@@ -2,17 +2,19 @@ import jsonPlaceHolder from "../apis/jsonPlaceHolder";
 import _ from "lodash";
 
 export const fetchPostsAndUsers = () => async (dispatch, getState) => {
-    console.log("about to fetch post");
+    // console.log("about to fetch post");
     await dispatch(fetchPosts());
-    console.log(getState().posts);
-    const uniqUserId = [];
-    getState().posts.map(post => {
-        if (!uniqUserId.includes(post.userId)) {
-            uniqUserId.push(post.userId);
+    console.log(getState());
+    const userIds = [];
+    getState().posts.forEach(post => {
+        if (!userIds.includes(post.userId)) {
+            userIds.push(post.userId);
         }
     });
-    console.log(uniqUserId);
-    console.log("fetched posts");
+    // console.log(userIds);
+    // console.log("fetched posts");
+    userIds.forEach(id => dispatch(fetchUser(id)));
+    console.log(getState());
 };
 
 export const fetchPosts = () => async (dispatch, getState) => {
